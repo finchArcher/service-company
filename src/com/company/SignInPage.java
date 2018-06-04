@@ -7,8 +7,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import models.User;
 
 public class SignInPage {
+    public static User user;
     public static void show(Stage stage, Scene previosScene) {
         VBox vBox = new VBox();
         TextField username = new TextField();
@@ -24,9 +26,9 @@ public class SignInPage {
         sign_in.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String Susername = username.getText();
-                String Spassword = password.getText();
-                if(Sign.authenticate(Susername,Spassword,"users")){
+                user.setUsername(username.getText());
+                user.setPassword(password.getText());
+                if(DBInterface.authenticate(user.getUsername(),user.getPassword(),"users")){
                     ProviderPage.show(stage,previosScene);
                 }
 
