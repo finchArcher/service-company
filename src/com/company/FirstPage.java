@@ -26,19 +26,20 @@ public class FirstPage extends Application {
         vBox.getChildren().addAll(sign_in,sign_up);
         Scene scene = new Scene(vBox,800,600);
         primaryStage.setScene(scene);
+
         primaryStage.show();
 
         sign_in.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
 
-                SignInPage.sign_in_function(primaryStage,scene);
+                SignInPage.show(primaryStage,scene);
             }
         });
         sign_up.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                SignUpPage.sign_up_function(primaryStage);
+                SignUpPage.show(primaryStage);
             }
         });
     }

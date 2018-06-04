@@ -9,25 +9,25 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class SignInPage {
-    public static void sign_in_function(Stage stage, Scene previosScene) {
+    public static void show(Stage stage, Scene previosScene) {
         VBox vBox = new VBox();
         TextField username = new TextField();
         TextField password = new TextField();
-        Button login = new Button("sign_in");
+        Button sign_in = new Button("sign_in");
         Button back = new Button("back");
         username.setPromptText("username");
         password.setPromptText("password");
-        vBox.getChildren().addAll(back,username,password,login);
+        vBox.getChildren().addAll(back,username,password,sign_in);
         Scene sign_scene = new Scene(vBox,800,600);
         stage.setScene(sign_scene);
         stage.show();
-        login.setOnAction(new EventHandler<ActionEvent>() {
+        sign_in.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 String Susername = username.getText();
                 String Spassword = password.getText();
                 if(Sign.authenticate(Susername,Spassword,"users")){
-                    System.out.println("congagulation");
+                    ProviderPage.show(stage,previosScene);
                 }
 
             }
@@ -35,7 +35,7 @@ public class SignInPage {
         back.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                stage.setScene(previosScene);
+                stage.setScene(sign_scene);
                 stage.show();
             }
         });
