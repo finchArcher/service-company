@@ -121,9 +121,9 @@ public class SignUpPage {
                 if(createUser(user)){
                     if (addUser(user)){
                         if (user.isCustomer()){
-                            CustomerPage.show(stage,currentScene,true);
+                            CustomerPage.show(stage,currentScene,user,true);
                         }else {
-                            ProviderPage.show(stage,currentScene,true);
+                            ProviderPage.show(stage,currentScene,user,true);
                         }
                     }
                 }

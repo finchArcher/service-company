@@ -1,5 +1,6 @@
 package network;
 
+import models.Service;
 import models.User;
 
 import java.sql.*;
@@ -111,5 +112,35 @@ public class JDBC {
             return 0;
         }
     }
+    public static int insert(String table, Service service){
+        connect();
+        try {
+            String qurey = "insert into "+table+" values(?,?,?,? )";
+            PreparedStatement preparedStatement = connection.prepareStatement(qurey);
+            preparedStatement.setString(1,"0");
+            preparedStatement.setString(2,service.getProvider_id());
+            preparedStatement.setString(3,service.getDescription());
+            preparedStatement.setInt(4,service.getCost());
+            int result = preparedStatement.executeUpdate();
+            preparedStatement.close();
+            connection.close();
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
 
+    public static void removeUser(User user) {
+        String query = "delete from users where username='"+user.getUsername()+"'";
+        connect();
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(query);
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -4,20 +4,20 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import models.Report;
+import models.User;
 import network.DBInterface;
+import network.JDBC;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 
 public class ProviderPage {
@@ -27,14 +27,8 @@ public class ProviderPage {
     private static Button signOut;
     private static Button removeService;
     private static Button removeProfile;
-    public static void show(Stage stage, Scene previosScene,Boolean isSignUp) {
+    public static void show(Stage stage, Scene previosScene, User user, Boolean isSignUp) {
         tableView = new TableView();
-        Button back = new Button("back");
-        if(isSignUp){
-            back.setVisible(false);
-        }
-
-
         final Label label = new Label("Services performed:");
         label.setFont(new Font("Arial", 20));
 
@@ -55,34 +49,61 @@ public class ProviderPage {
         //initTableView();
 
         addService = new Button("Add Service");
-        signOut = new Button("DBInterface Out");
-        HBox firstRow = new HBox();
-        firstRow.setSpacing(20);
-        firstRow.setPadding(new Insets(10,10,0,10));
-        firstRow.getChildren().addAll(addService,signOut);
-
         removeService = new Button("Remove Service");
+        signOut = new Button("Sign Out");
         removeProfile = new Button("remove Profile");
-        HBox secondRow = new HBox();
-        firstRow.setSpacing(20);
-        firstRow.setPadding(new Insets(10,10,0,10));
-        firstRow.getChildren().addAll(removeService,removeProfile);
+        HBox buttonRow = new HBox();
+        buttonRow.setSpacing(20);
+        buttonRow.setPadding(new Insets(10,10,0,10));
+        buttonRow.getChildren().addAll(addService,removeService,signOut,removeProfile);
 
         VBox root = new VBox();
         root.setSpacing(5);
         root.setPadding(new Insets(10, 0, 0, 10));
-        root.getChildren().addAll(back,label, tableView,firstRow,secondRow);
+        root.getChildren().addAll(label, tableView,buttonRow);
 
 
-        Scene scene = new Scene(root,previosScene.getWidth(),previosScene.getHeight());
-        stage.setScene(scene);
+        Scene currentScene = new Scene(root,previosScene.getWidth(),previosScene.getHeight());
+        stage.setScene(currentScene);
         stage.show();
 
-        back.setOnAction(new EventHandler<ActionEvent>() {
+        addService.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                AddServicePage.show(stage,currentScene,user);
+            }
+        });
+
+        removeService.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
+            }
+        });
+
+
+        signOut.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 stage.setScene(previosScene);
                 stage.show();
+            }
+        });
+
+        removeProfile.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("remove user");
+                alert.setHeaderText("Removing user "+user.getUsername()+" :");
+                alert.setContentText("Are you sure about this?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
+                    JDBC.removeUser(user);
+                    stage.setScene(previosScene);
+                    stage.show();
+                }
+
             }
         });
 

@@ -31,9 +31,13 @@ public class SignInPage {
                 user = new User(username.getText(),password.getText());
                 if(JDBC.authenticate(user.getUsername(),user.getPassword(),"users")){
                    if(JDBC.isCustomer(user.getUsername(),user.getPassword())){
-                       CustomerPage.show(stage,currentScene,false);
+                       username.setText("");
+                       password.setText("");
+                       CustomerPage.show(stage,currentScene,user,false);
                    }else {
-                       ProviderPage.show(stage,currentScene,false);
+                       username.setText("");
+                       password.setText("");
+                       ProviderPage.show(stage,currentScene,user,false);
 
                    }
                 }
