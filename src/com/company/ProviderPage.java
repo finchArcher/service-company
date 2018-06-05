@@ -14,14 +14,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import models.Report;
-import models.User;
+import network.DBInterface;
 
-import javax.jws.soap.SOAPBinding;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 
 public class ProviderPage {
+    //TODO: create function for buttons , test initiTableView function
     private static TableView tableView;
     private static Button addService;
     private static Button signOut;
@@ -49,7 +49,7 @@ public class ProviderPage {
 
 
         tableView.getColumns().addAll(serviceClm,customerClm,costCol,dateCol);
-        initTableView();
+        //initTableView();
 
         addService = new Button("Add Service");
         signOut = new Button("DBInterface Out");

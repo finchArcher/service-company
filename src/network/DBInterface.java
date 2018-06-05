@@ -1,4 +1,4 @@
-package com.company;
+package network;
 
 import models.Report;
 
@@ -8,10 +8,15 @@ import java.util.ArrayList;
 
 public class DBInterface {
 
-    public static boolean authenticate(String username, String password,String table){
+    public static boolean authenticate(String username, String password,String table) {
         String query = "select username,passw from "+table+" where username='"+username+"' and passw='"+password+"'";
-        ResultSet rs = JDBC.fetch(query);
-        return (rs != null) ? true:false;
+        try {
+            ResultSet rs = JDBC.fetch(query);
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public static ArrayList<Report> fetchReport(String username) throws SQLException {
@@ -32,5 +37,14 @@ public class DBInterface {
         }
         return reports;
     }
+
+    public static boolean createUser(String username, String password){
+       if (!authenticate(username,password,"users")){
+
+       }
+       return true;
+
+    }
+
 
 }

@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import models.User;
+import network.DBInterface;
 
 public class SignInPage {
     public static User user;
@@ -26,8 +27,7 @@ public class SignInPage {
         sign_in.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                user.setUsername(username.getText());
-                user.setPassword(password.getText());
+                user = new User(username.getText(),password.getText());
                 if(DBInterface.authenticate(user.getUsername(),user.getPassword(),"users")){
                     ProviderPage.show(stage,previosScene);
                 }
@@ -37,7 +37,7 @@ public class SignInPage {
         back.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                stage.setScene(sign_scene);
+                stage.setScene(previosScene);
                 stage.show();
             }
         });
