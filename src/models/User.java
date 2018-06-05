@@ -1,12 +1,11 @@
 package models;
 
 public class User {
-    private int id;
     private String first_name;
     private String last_name;
     private String address;
-    private Long tell;
-    private int age;
+    private String tell;
+    private String age;
     private boolean sex;
     private String username;
     private String password;
@@ -20,10 +19,9 @@ public class User {
         this.password = password;
     }
 
-    public User(int id, String first_name, String last_name,
-                String address, Long tell,
-                int age, boolean sex,boolean isCustomer, String username, String password) {
-        this.id = id;
+    public User(String first_name, String last_name,
+                String address, String tell,
+                String age, boolean sex,boolean isCustomer, String username, String password) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.address = address;
@@ -33,14 +31,6 @@ public class User {
         this.isCustomer = isCustomer;
         this.username = username;
         this.password = password;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getFirst_name() {
@@ -67,19 +57,19 @@ public class User {
         this.address = address;
     }
 
-    public Long getTell() {
+    public String getTell() {
         return tell;
     }
 
-    public void setTell(Long tell) {
+    public void setTell(String tell) {
         this.tell = tell;
     }
 
-    public int getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(String age) {
         this.age = age;
     }
 

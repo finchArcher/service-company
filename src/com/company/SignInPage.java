@@ -29,7 +29,7 @@ public class SignInPage {
             public void handle(ActionEvent event) {
                 user = new User(username.getText(),password.getText());
                 if(DBInterface.authenticate(user.getUsername(),user.getPassword(),"users")){
-                    ProviderPage.show(stage,previosScene);
+                    ProviderPage.show(stage,previosScene,false);
                 }
 
             }

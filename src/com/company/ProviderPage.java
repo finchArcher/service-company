@@ -27,9 +27,12 @@ public class ProviderPage {
     private static Button signOut;
     private static Button removeService;
     private static Button removeProfile;
-    public static void show(Stage stage, Scene previosScene) {
+    public static void show(Stage stage, Scene previosScene,Boolean isSignUp) {
         tableView = new TableView();
         Button back = new Button("back");
+        if(isSignUp){
+            back.setVisible(false);
+        }
 
 
         final Label label = new Label("Services performed:");
