@@ -38,7 +38,7 @@ public class FirstPage extends Application {
         sign_up.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                RegistrationPage.show(primaryStage,scene);
+                SignUpPage.show(primaryStage,scene);
             }
         });
     }

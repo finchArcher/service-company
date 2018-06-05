@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import models.User;
 import network.JDBC;
@@ -31,13 +32,24 @@ public class SignUpPage {
     private static RadioButton female;
     private static Label lAge;
     private static TextField tAge;
+
+    private static Label lUsername = new Label("username");
+    private static TextField tUsername = new TextField();
+
+    private static Label lPassword = new Label("password");
+    private static PasswordField tPassword = new PasswordField();
+
+    private static Label usernaemError = new Label();
+    private static Label passwordError = new Label();
+
     private static Button signUp;
+    private static User user;
 
 
-    public static void show(Stage stage, Scene previosScene,User user) {
+    public static void show(Stage stage, Scene previosScene) {
         root = new GridPane();
-        root.setHgap(2);
-        root.setVgap(9);
+        root.setHgap(3);
+        root.setVgap(12);
 
         back = new Button("back");
         lIsCustomer = new Label("Are you customer?");
@@ -78,7 +90,16 @@ public class SignUpPage {
         root.add(tAge,1,6);
         root.add(lTell,0,7);
         root.add(tTell,1,7);
-        root.add(signUp,1,8);
+
+        root.add(lUsername,0,9);
+        root.add(tUsername,1,9);
+        root.add(usernaemError,2,9);
+        root.add(lPassword,0,10);
+        root.add(tPassword,1,10);
+        root.add(passwordError,2,10);
+        root.add(signUp,1,11);
+
+
 
         Scene currentScene = new Scene(root,previosScene.getWidth(),previosScene.getHeight());
         stage.setScene(currentScene);
@@ -95,8 +116,16 @@ public class SignUpPage {
             @Override
             public void handle(ActionEvent event) {
                 //TODO: check data for valid
-                if(addUser(user)){
-                    ProviderPage.show(stage,currentScene,true);
+                user = new User(tUsername.getText(),tPassword.getText());
+
+                if(createUser(user)){
+                    if (addUser(user)){
+                        if (user.isCustomer()){
+                            CustomerPage.show(stage,currentScene,true);
+                        }else {
+                            ProviderPage.show(stage,currentScene,true);
+                        }
+                    }
                 }
             }
         });
@@ -119,6 +148,33 @@ public class SignUpPage {
         user.setAge(tAge.getText());
         return JDBC.insert("users",user) == 1;
 
+    }
+
+    private static boolean createUser(User user){
+        if(user.getUsername().isEmpty()){
+            usernaemError.setText("");
+            passwordError.setText("");
+            tUsername.clear();
+            usernaemError.setText("username can't be empty!");
+            usernaemError.setTextFill(Color.RED);
+        }else if (user.getPassword().isEmpty()){
+            passwordError.setText("");
+            usernaemError.setText("");
+            tPassword.clear();
+            passwordError.setText("password can't be empty");
+            passwordError.setTextFill(Color.RED);
+        }else {
+            if (!JDBC.checkUser(user.getUsername())){
+                return true;
+            }else {
+                tPassword.clear();
+                lPassword.setText("");
+                usernaemError.setText("your username is duplicate, please insert another one");
+                usernaemError.setTextFill(Color.RED);
+            }
+
+        }
+        return false;
     }
 
 }

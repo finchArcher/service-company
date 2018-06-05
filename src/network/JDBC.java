@@ -38,20 +38,38 @@ public class JDBC {
         }
     }
 
-    public static boolean checkUser(String username) {
-        String query = "select username from users where username='"+username+"'";
+    public static boolean isCustomer(String username, String password) {
+        String query = "select is_customer from users where username='"+username+"' and passw='"+password+"'";
         try {
             connect();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
-            Boolean is_exist= resultSet.next();
+            resultSet.next();
+            Boolean is_customer = resultSet.getBoolean("is_customer");
             statement.close();
             connection.close();
-            return is_exist;
+            return is_customer;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public static boolean checkUser(String username) {
+        String query = "select username from users where username='"+username+"'";
+        boolean is_exist=true;
+        try {
+
+            connect();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            is_exist= resultSet.next();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return is_exist;
     }
 
 

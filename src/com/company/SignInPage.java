@@ -9,6 +9,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import models.User;
 import network.DBInterface;
+import network.JDBC;
 
 public class SignInPage {
     public static User user;
@@ -21,15 +22,20 @@ public class SignInPage {
         username.setPromptText("username");
         password.setPromptText("password");
         vBox.getChildren().addAll(back,username,password,sign_in);
-        Scene sign_scene = new Scene(vBox,800,600);
-        stage.setScene(sign_scene);
+        Scene currentScene = new Scene(vBox,800,600);
+        stage.setScene(currentScene);
         stage.show();
         sign_in.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 user = new User(username.getText(),password.getText());
-                if(DBInterface.authenticate(user.getUsername(),user.getPassword(),"users")){
-                    ProviderPage.show(stage,previosScene,false);
+                if(JDBC.authenticate(user.getUsername(),user.getPassword(),"users")){
+                   if(JDBC.isCustomer(user.getUsername(),user.getPassword())){
+                       CustomerPage.show(stage,currentScene,false);
+                   }else {
+                       ProviderPage.show(stage,currentScene,false);
+
+                   }
                 }
 
             }
