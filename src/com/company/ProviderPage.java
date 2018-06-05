@@ -12,7 +12,6 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import models.Report;
 import models.User;
-import network.DBInterface;
 import network.JDBC;
 
 import java.sql.SQLException;
@@ -77,7 +76,7 @@ public class ProviderPage {
         removeService.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
+                RemoveServicePage.show(stage,previosScene,user);
             }
         });
 
@@ -108,7 +107,7 @@ public class ProviderPage {
         });
 
     }
-    private static void initTableView(){
+   /* private static void initTableView(){
         try {
             ArrayList<Report> reports = DBInterface.fetchReport(SignInPage.user.getUsername());
             for(Report r : reports){
@@ -117,5 +116,5 @@ public class ProviderPage {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

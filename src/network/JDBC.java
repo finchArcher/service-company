@@ -1,5 +1,6 @@
 package network;
 
+import models.Report;
 import models.Service;
 import models.User;
 
@@ -73,17 +74,40 @@ public class JDBC {
         return is_exist;
     }
 
+  /*  public static ArrayList<Report> fetchReport(String username) throws SQLException {
+        String query = "select service_id,provider_id,customer_id,description,cost,_date,rate from "+
+                "reports where provider_id="+username+"";
+        ResultSet resultSet = JDBC.fetch(query);
+        Report report = new Report();
+        ArrayList<Report> reports = new ArrayList<Report>();
+        while (resultSet.next()){
+            report.setService_id(resultSet.getInt("service_id"));
+            report.setProvider_id(resultSet.getInt("provider_id"));
+            report.setCustomer_id(resultSet.getInt("customer_id"));
+            report.setDescription(resultSet.getString("description"));
+            report.setCost(resultSet.getInt("cost"));
+            report.setDate(resultSet.getDate("_date"));
+            report.setRate(resultSet.getInt("rate"));
+            reports.add(report);
+        }
+        return reports;
+    }*/
 
 
-    public static ResultSet fetch(String query){
+    public static ArrayList<String> fetch(String table,User user){
+        String query = "select description from "+table+" where provider_id='"
+                +user.getUsername()+"'";
         connect();
         try {
             Statement statement = connection.createStatement();
-            ResultSet rs;
-            rs = statement.executeQuery(query);
+            ResultSet rs = statement.executeQuery(query);
+            ArrayList<String> result = new ArrayList<>();
+            while (rs.next()){
+                result.add(rs.getString("description"));
+            }
             statement.close();
             connection.close();
-            return rs;
+            return result;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -123,6 +147,22 @@ public class JDBC {
             preparedStatement.setInt(4,service.getCost());
             int result = preparedStatement.executeUpdate();
             preparedStatement.close();
+            connection.close();
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public static int removeService(String service,User user){
+        connect();
+        try {
+            String qurey = "delete from services where provider_id='"+user.getUsername()+"' and description='"
+                    +service+"'";
+            Statement statement = connection.createStatement();
+            int result = statement.executeUpdate(qurey);
+            statement.close();
             connection.close();
             return result;
         } catch (SQLException e) {

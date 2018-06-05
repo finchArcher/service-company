@@ -8,7 +8,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import models.User;
-import network.DBInterface;
 import network.JDBC;
 
 public class SignInPage {
