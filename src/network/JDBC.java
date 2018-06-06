@@ -94,9 +94,28 @@ public class JDBC {
     }*/
 
 
-    public static ArrayList<String> fetch(String table,User user){
+    public static ArrayList<String> fetchUserService(String table, User user){
         String query = "select description from "+table+" where provider_id='"
                 +user.getUsername()+"'";
+        connect();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            ArrayList<String> result = new ArrayList<>();
+            while (rs.next()){
+                result.add(rs.getString("description"));
+            }
+            statement.close();
+            connection.close();
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static ArrayList<String> fetchTable(String table){
+        String query = "select description from "+table;
         connect();
         try {
             Statement statement = connection.createStatement();

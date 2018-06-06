@@ -21,7 +21,7 @@ public class RemoveServicePage {
         Button back = new Button("back");
         Label lSerivce = new Label("Service:");
         ComboBox service = new ComboBox();
-        service.getItems().addAll(JDBC.fetch("services",user));
+        service.getItems().addAll(JDBC.fetchUserService("services",user));
         Button remove = new Button("Remove");
         root.getChildren().addAll(back,lSerivce,service,remove);
         root.setSpacing(10);
