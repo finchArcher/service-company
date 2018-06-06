@@ -20,7 +20,7 @@ import java.util.Optional;
 
 
 public class ProviderPage {
-    //TODO: create function for buttons , test initiTableView function
+    //TODO:test initiTableView function
     private static TableView tableView;
     private static Button addService;
     private static Button signOut;
@@ -45,7 +45,7 @@ public class ProviderPage {
 
 
         tableView.getColumns().addAll(serviceClm,customerClm,costCol,dateCol);
-        //initTableView();
+        initTableView();
 
         addService = new Button("Add Service");
         removeService = new Button("Remove Service");
@@ -107,14 +107,14 @@ public class ProviderPage {
         });
 
     }
-   /* private static void initTableView(){
+    private static void initTableView(){
         try {
-            ArrayList<Report> reports = DBInterface.fetchReport(SignInPage.user.getUsername());
+            ArrayList<Report> reports = JDBC.fetchReport(SignInPage.user.getUsername());
             for(Report r : reports){
                 tableView.getItems().add(r);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }*/
+    }
 }

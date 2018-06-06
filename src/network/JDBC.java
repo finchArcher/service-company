@@ -74,10 +74,11 @@ public class JDBC {
         return is_exist;
     }
 
-  /*  public static ArrayList<Report> fetchReport(String username) throws SQLException {
+    public static ArrayList<Report> fetchReport(String username) throws SQLException {
         String query = "select service_id,provider_id,customer_id,description,cost,_date,rate from "+
                 "reports where provider_id="+username+"";
-        ResultSet resultSet = JDBC.fetch(query);
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
         Report report = new Report();
         ArrayList<Report> reports = new ArrayList<Report>();
         while (resultSet.next()){
@@ -91,7 +92,7 @@ public class JDBC {
             reports.add(report);
         }
         return reports;
-    }*/
+    }
 
 
     public static ArrayList<String> fetchUserService(String table, User user){
