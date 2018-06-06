@@ -76,7 +76,7 @@ public class ProviderPage {
         removeService.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                RemoveServicePage.show(stage,previosScene,user);
+                RemoveServicePage.show(stage,currentScene,user);
             }
         });
 
