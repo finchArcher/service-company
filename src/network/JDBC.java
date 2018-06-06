@@ -157,6 +157,31 @@ public class JDBC {
             return null;
         }
     }
+
+    public static ArrayList<Integer> fetchRate(String username){
+        String query = "select rate from reports where provider_id='"+
+                username+"' ";
+
+        connect();
+        ArrayList<Integer> result = new ArrayList<>();
+        int sum=0,i=0;
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            while (rs.next()){
+                sum += rs.getInt("rate");
+                i += 1;
+            }
+            result.add(i);
+            result.add(sum);
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     public static int insert(String table, User user){
         connect();
         try {
@@ -247,6 +272,21 @@ public class JDBC {
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static int updateRate(String username, int rate) {
+        String qurey = "update users set rate='"+rate+"' where username='"+username+"'";
+        connect();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(qurey);
+            int result = preparedStatement.executeUpdate();
+            preparedStatement.close();
+            connection.close();
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
         }
     }
 }
