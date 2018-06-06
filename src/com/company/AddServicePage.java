@@ -39,7 +39,9 @@ public class AddServicePage{
         add.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Service service = new Service(user.getUsername(),Integer.parseInt(tCost.getText()),services.getValue().toString());
+                Service service = new Service(user.getUsername(),
+                                            services.getValue().toString(),
+                                            Integer.parseInt(tCost.getText()));
                 JDBC.insert("services",service);
                 tCost.clear();
                 stage.setScene(previosScene);

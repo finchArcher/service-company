@@ -9,9 +9,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import models.Report;
+import models.Service;
 import models.User;
 import network.JDBC;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Optional;
 
 public class CustomerPage {
@@ -22,10 +28,10 @@ public class CustomerPage {
         Button signOut = new Button("Sign out");
         Button removeProfile = new Button("removeProfile");
         Label lSerivce = new Label("Service:");
-        ComboBox service = new ComboBox();
-        service.getItems().addAll(JDBC.fetchTable("services"));
+        ComboBox comboBox = new ComboBox();
+        comboBox.getItems().addAll(JDBC.fetchTable("services"));
         Button request = new Button("Request");
-        root.getChildren().addAll(lSerivce,service,request,signOut,removeProfile);
+        root.getChildren().addAll(lSerivce,comboBox,request,signOut,removeProfile);
         root.setSpacing(10);
 
         Scene currentScene = new Scene(root,previosScene.getWidth(),previosScene.getHeight());
@@ -35,7 +41,7 @@ public class CustomerPage {
         request.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
+                operator(user,comboBox.getValue().toString());
             }
         });
 
@@ -62,6 +68,23 @@ public class CustomerPage {
                 }
             }
         });
+    }
+
+    private static void operator(User user,String service) {
+        Service result = JDBC.fetchServices(service);
+        ChoiceDialog<Integer> rateDialog = new ChoiceDialog<>(3,1,2,3,4,5);
+        rateDialog.setTitle("Rate");
+        rateDialog.setHeaderText("How was your service");
+        rateDialog.setContentText("Rate:");
+        Optional<Integer> rateResult = rateDialog.showAndWait();
+        int rate = rateDialog.getSelectedItem();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        Report report = new Report(result.getProvider_id(),user.getUsername(),
+                                    service,result.getCost(),
+                            new java.sql.Date(Calendar.getInstance().getTime().getTime()),rate);
+        JDBC.insert(report);
+
     }
 
 }

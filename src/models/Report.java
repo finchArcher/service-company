@@ -1,11 +1,12 @@
 package models;
 
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
+
 import java.sql.Date;
 
 public class Report {
-    private int service_id;
-    private int provider_id;
-    private int customer_id;
+    private String provider_id;
+    private String customer_id;
     private String description;
     private int cost;
     private Date date;
@@ -14,36 +15,29 @@ public class Report {
     public Report(){
 
     }
-    public Report(int service_id, int provider_id, int customer_id, String description, int cost, Date date) {
-        this.service_id = service_id;
+    public Report(String provider_id, String customer_id, String description, int cost, Date date, int rate) {
         this.provider_id = provider_id;
         this.customer_id = customer_id;
         this.description = description;
         this.cost = cost;
         this.date = date;
+        this.rate = rate;
     }
 
-    public int getService_id() {
-        return service_id;
-    }
 
-    public void setService_id(int service_id) {
-        this.service_id = service_id;
-    }
-
-    public int getProvider_id() {
+    public String getProvider_id() {
         return provider_id;
     }
 
-    public void setProvider_id(int provider_id) {
+    public void setProvider_id(String provider_id) {
         this.provider_id = provider_id;
     }
 
-    public int getCustomer_id() {
+    public String getCustomer_id() {
         return customer_id;
     }
 
-    public void setCustomer_id(int customer_id) {
+    public void setCustomer_id(String customer_id) {
         this.customer_id = customer_id;
     }
 

@@ -146,6 +146,7 @@ public class SignUpPage {
         user.setTell(tTell.getText());
         user.setSex(checksex(sex));
         user.setAge(tAge.getText());
+        user.setRate(3);
         return JDBC.insert("users",user) == 1;
 
     }

@@ -74,7 +74,7 @@ public class JDBC {
         return is_exist;
     }
 
-    public static ArrayList<Report> fetchReport(String username) throws SQLException {
+    /*public static ArrayList<Report> fetchReport(String username) throws SQLException {
         String query = "select service_id,provider_id,customer_id,description,cost,_date,rate from "+
                 "reports where provider_id="+username+"";
         Statement statement = connection.createStatement();
@@ -92,9 +92,33 @@ public class JDBC {
             reports.add(report);
         }
         return reports;
+    }*/
+
+
+    public static Service fetchServices(String service) {
+        String query = "select services.provider_id, services.description,services.cost" +
+                        ", users.rate from services inner join users on" +
+                        " services.provider_id = users.username and"+
+                        " services.description='"+service+
+                        "' order by services.cost asc, users.rate desc";
+        connect();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            rs.next();
+            Service ser =new Service(rs.getString("provider_id")
+                                ,null,null,rs.getString("description")
+                                ,rs.getInt("cost"),
+                                rs.getInt("rate"));
+            statement.close();
+            connection.close();
+            return ser;
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+            return null;
+        }
+
     }
-
-
     public static ArrayList<String> fetchUserService(String table, User user){
         String query = "select description from "+table+" where provider_id='"
                 +user.getUsername()+"'";
@@ -136,7 +160,7 @@ public class JDBC {
     public static int insert(String table, User user){
         connect();
         try {
-            String qurey = "insert into "+table+" values(?,?,?,?,?,?,?,?,?)";
+            String qurey = "insert into "+table+" values(?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(qurey);
             preparedStatement.setString(1,user.getFirst_name());
             preparedStatement.setString(2,user.getLast_name());
@@ -147,6 +171,7 @@ public class JDBC {
             preparedStatement.setBoolean(7,user.isCustomer());
             preparedStatement.setString(8,user.getUsername());
             preparedStatement.setString(9,user.getPassword());
+            preparedStatement.setInt(10,user.getRate());
             int result = preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
@@ -165,6 +190,27 @@ public class JDBC {
             preparedStatement.setString(2,service.getProvider_id());
             preparedStatement.setString(3,service.getDescription());
             preparedStatement.setInt(4,service.getCost());
+            int result = preparedStatement.executeUpdate();
+            preparedStatement.close();
+            connection.close();
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public static int insert(Report report){
+        connect();
+        try {
+            String qurey = "insert into reports values(?,?,?,?,?,?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(qurey);
+            preparedStatement.setString(1,report.getProvider_id());
+            preparedStatement.setString(2,report.getCustomer_id());
+            preparedStatement.setString(3,report.getDescription());
+            preparedStatement.setInt(4,report.getCost());
+            preparedStatement.setDate(5,report.getDate());
+            preparedStatement.setInt(6,report.getRate());
             int result = preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();

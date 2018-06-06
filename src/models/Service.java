@@ -3,25 +3,35 @@ package models;
 import java.sql.Date;
 
 public class Service {
-    private String id;
+    //private String id;
     private String provider_id;
     private String customer_id;
-    private int cost;
     private Date date;
     private String description;
+    private int cost;
+    private int rate;
 
-    public Service(String id, String provider_id, int cost, String description){
-        this.id = id;
+    public Service(){}
+    public Service(String provider_id, String customer_id,Date date, String description,int cost,int rate){
         this.provider_id = provider_id;
-        this.cost = cost;
+        this.customer_id = customer_id;
+        this.date = date;
         this.description = description;
+        this.cost = cost;
+        this.rate = rate;
     }
 
-    public Service(String provider_id, int cost, String description){
+    public Service(String provider_id, String description, int cost) {
         this.provider_id = provider_id;
-        this.cost = cost;
         this.description = description;
+        this.cost = cost;
     }
+    /*public Service(String provider_id,String description, int cost, int rate){
+        this.provider_id = provider_id;
+        this.description = description;
+        this.cost = cost;
+        this.
+    }*/
 
     public String getCustomer_id() {
         return customer_id;
@@ -37,14 +47,6 @@ public class Service {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getProvider_id() {
@@ -69,5 +71,13 @@ public class Service {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getRate() {
+        return rate;
+    }
+
+    public void setRate(int rate) {
+        this.rate = rate;
     }
 }

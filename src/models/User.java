@@ -10,6 +10,7 @@ public class User {
     private String username;
     private String password;
     private boolean isCustomer;
+    private int rate;
 
     public User() {
     }
@@ -105,5 +106,10 @@ public class User {
         this.password = password;
     }
 
-
+    public int getRate() {
+        return rate;
+    }
+    public void setRate(int rate) {
+        this.rate = rate;
+    }
 }

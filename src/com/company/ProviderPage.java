@@ -45,7 +45,7 @@ public class ProviderPage {
 
 
         tableView.getColumns().addAll(serviceClm,customerClm,costCol,dateCol);
-        initTableView();
+        //initTableView();
 
         addService = new Button("Add Service");
         removeService = new Button("Remove Service");
@@ -107,7 +107,7 @@ public class ProviderPage {
         });
 
     }
-    private static void initTableView(){
+    /*private static void initTableView(){
         try {
             ArrayList<Report> reports = JDBC.fetchReport(SignInPage.user.getUsername());
             for(Report r : reports){
@@ -116,5 +116,5 @@ public class ProviderPage {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }
