@@ -119,6 +119,7 @@ public class JDBC {
         }
 
     }
+
     public static ArrayList<String> fetchUserService(String table, User user){
         String query = "select description from "+table+" where provider_id='"
                 +user.getUsername()+"'";
@@ -139,6 +140,33 @@ public class JDBC {
         }
     }
 
+    public static ArrayList<Report> getServicePerformed(User user){
+        String query = "select * from reports where provider_id='"+user.getUsername()+"'";
+        connect();
+
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            ArrayList<Report> result = new ArrayList<>();
+            while (rs.next()){
+                Report report = new Report();
+                report.setProvider_id(rs.getString("provider_id"));
+                report.setDescription(rs.getString("description"));
+                report.setCustomer_id(rs.getString("customer_id"));
+                report.setCost(rs.getInt("cost"));
+                report.setDate(rs.getDate("_date"));
+                report.setRate(rs.getInt("rate"));
+                result.add(report);
+
+            }
+            statement.close();
+            connection.close();
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     public static ArrayList<String> fetchTable(String table){
         String query = "select description from "+table;
         connect();

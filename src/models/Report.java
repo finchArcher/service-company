@@ -23,6 +23,13 @@ public class Report {
         this.date = date;
         this.rate = rate;
     }
+    public Report(Report report){
+        this.provider_id = report.getProvider_id();
+        this.customer_id = report.getCustomer_id();
+        this.description = report.getDescription();
+        this.cost = report.getCost();
+        this.date = report.getDate();
+    }
 
 
     public String getProvider_id() {

@@ -1,5 +1,7 @@
 package com.company;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -31,8 +33,6 @@ public class ProviderPage {
         final Label label = new Label("Services performed:");
         label.setFont(new Font("Arial", 20));
 
-        TableColumn serviceIdClm = new TableColumn("Service ID");
-        serviceIdClm.setCellValueFactory(new PropertyValueFactory<>("service_id"));
         TableColumn serviceClm = new TableColumn("Service");
         serviceClm.setCellValueFactory(new PropertyValueFactory<>("description"));
         TableColumn customerClm = new TableColumn("Customer");
@@ -45,7 +45,7 @@ public class ProviderPage {
 
 
         tableView.getColumns().addAll(serviceClm,customerClm,costCol,dateCol);
-        //initTableView();
+        initTableView(user);
 
         addService = new Button("Add Service");
         removeService = new Button("Remove Service");
@@ -107,14 +107,10 @@ public class ProviderPage {
         });
 
     }
-    /*private static void initTableView(){
-        try {
-            ArrayList<Report> reports = JDBC.fetchReport(SignInPage.user.getUsername());
-            for(Report r : reports){
-                tableView.getItems().add(r);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+    private static void initTableView(User user){
+        ArrayList<Report> reports = JDBC.getServicePerformed(user);
+        for(Report r : reports){
+            tableView.getItems().add(r);
         }
-    }*/
+    }
 }
