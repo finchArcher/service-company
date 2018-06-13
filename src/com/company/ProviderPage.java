@@ -41,10 +41,12 @@ public class ProviderPage {
         costCol.setCellValueFactory(new PropertyValueFactory<>("cost"));
         TableColumn dateCol = new TableColumn("Date");
         dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+        TableColumn rateCol = new TableColumn("Rate");
+        rateCol.setCellValueFactory(new PropertyValueFactory<>("rate"));
         tableView.setPadding(new Insets(0,10,0,0));
 
 
-        tableView.getColumns().addAll(serviceClm,customerClm,costCol,dateCol);
+        tableView.getColumns().addAll(serviceClm,customerClm,costCol,dateCol,rateCol);
         initTableView(user);
 
         addService = new Button("Add Service");

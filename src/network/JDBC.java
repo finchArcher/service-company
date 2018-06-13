@@ -150,7 +150,6 @@ public class JDBC {
             ArrayList<Report> result = new ArrayList<>();
             while (rs.next()){
                 Report report = new Report();
-                report.setProvider_id(rs.getString("provider_id"));
                 report.setDescription(rs.getString("description"));
                 report.setCustomer_id(rs.getString("customer_id"));
                 report.setCost(rs.getInt("cost"));
