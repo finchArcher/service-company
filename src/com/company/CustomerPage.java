@@ -14,6 +14,9 @@ import models.Service;
 import models.User;
 import network.JDBC;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -70,7 +73,7 @@ public class CustomerPage {
         });
     }
 
-    private static void operator(User user,String service) {
+    private static void operator(User user,String service){
         //find best option for chosen service
         Service result = JDBC.fetchServices(service);
 
@@ -83,11 +86,10 @@ public class CustomerPage {
         int rate = rateDialog.getSelectedItem();
 
         //add report of service to database
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
         Report report = new Report(result.getProvider_id(),user.getUsername(),
                                     service,result.getCost(),
-                            new java.sql.Date(Calendar.getInstance().getTime().getTime()),rate);
+                                    new Timestamp((System.currentTimeMillis()))
+                                        ,rate);
 
         JDBC.insert(report);
 

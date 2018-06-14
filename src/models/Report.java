@@ -3,19 +3,20 @@ package models;
 import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Report {
     private String provider_id;
     private String customer_id;
     private String description;
     private int cost;
-    private Date date;
+    private Timestamp date;
     private int rate;
 
     public Report(){
 
     }
-    public Report(String provider_id, String customer_id, String description, int cost, Date date, int rate) {
+    public Report(String provider_id, String customer_id, String description, int cost, Timestamp date, int rate) {
         this.provider_id = provider_id;
         this.customer_id = customer_id;
         this.description = description;
@@ -64,11 +65,11 @@ public class Report {
         this.cost = cost;
     }
 
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 

@@ -5,6 +5,7 @@ import models.Service;
 import models.User;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class JDBC {
@@ -74,25 +75,93 @@ public class JDBC {
         return is_exist;
     }
 
-    /*public static ArrayList<Report> fetchReport(String username) throws SQLException {
-        String query = "select service_id,provider_id,customer_id,description,cost,_date,rate from "+
-                "reports where provider_id="+username+"";
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(query);
-        Report report = new Report();
-        ArrayList<Report> reports = new ArrayList<Report>();
-        while (resultSet.next()){
-            report.setService_id(resultSet.getInt("service_id"));
-            report.setProvider_id(resultSet.getInt("provider_id"));
-            report.setCustomer_id(resultSet.getInt("customer_id"));
-            report.setDescription(resultSet.getString("description"));
-            report.setCost(resultSet.getInt("cost"));
-            report.setDate(resultSet.getDate("_date"));
-            report.setRate(resultSet.getInt("rate"));
-            reports.add(report);
+    public static ArrayList<Report> fetchReportBaseOnProvider(String provider,String from , String to){
+        String query = "select * from reports where provider_id='"+provider+"' and _date >='"+
+                from+"' and _date <='"+to+"'";
+
+        connect();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            ArrayList<Report> result = new ArrayList<>();
+
+            while (rs.next()){
+                Report report = new Report();
+                report.setDescription(rs.getString("description"));
+                report.setCustomer_id(rs.getString("customer_id"));
+                report.setProvider_id(rs.getString("provider_id"));
+
+                report.setCost(rs.getInt("cost"));
+                report.setDate(rs.getTimestamp("_date"));
+                report.setRate(rs.getInt("rate"));
+                result.add(report);
+            }
+            statement.close();
+            connection.close();
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
-        return reports;
-    }*/
+    }
+
+    public static ArrayList<Report> fetchReportBaseOnCustomer(String customer ,String from, String to){
+        String query = "select * from reports where customer_id='"+customer+"' and _date >='"+from+
+                "' and _date <='"+to+"'";
+
+        connect();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            ArrayList<Report> result = new ArrayList<>();
+
+            while (rs.next()){
+                Report report = new Report();
+                report.setDescription(rs.getString("description"));
+                report.setCustomer_id(rs.getString("customer_id"));
+                report.setProvider_id(rs.getString("provider_id"));
+                report.setCost(rs.getInt("cost"));
+                report.setDate(rs.getTimestamp("_date"));
+                report.setRate(rs.getInt("rate"));
+                result.add(report);
+            }
+            statement.close();
+            connection.close();
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static ArrayList<Report> fetchReportBaseOnService(String service,String from, String to){
+        String query = "select * from reports where description='"+service+"'"+
+                " and _date >='"+from+"' and _date <='"+to+"'";
+
+        connect();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            ArrayList<Report> result = new ArrayList<>();
+
+            while (rs.next()){
+                Report report = new Report();
+                report.setDescription(rs.getString("description"));
+                report.setCustomer_id(rs.getString("customer_id"));
+                report.setProvider_id(rs.getString("provider_id"));
+                report.setCost(rs.getInt("cost"));
+                report.setDate(rs.getTimestamp("_date"));
+                report.setRate(rs.getInt("rate"));
+                result.add(report);
+            }
+            statement.close();
+            connection.close();
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 
     public static Service fetchServices(String service) {
@@ -153,7 +222,7 @@ public class JDBC {
                 report.setDescription(rs.getString("description"));
                 report.setCustomer_id(rs.getString("customer_id"));
                 report.setCost(rs.getInt("cost"));
-                report.setDate(rs.getDate("_date"));
+                report.setDate(rs.getTimestamp("_date"));
                 report.setRate(rs.getInt("rate"));
                 result.add(report);
 
@@ -175,6 +244,44 @@ public class JDBC {
             ArrayList<String> result = new ArrayList<>();
             while (rs.next()){
                 result.add(rs.getString("description"));
+            }
+            statement.close();
+            connection.close();
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static ArrayList<String> fetchAllService(){
+        String query = "select description from services";
+        connect();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            ArrayList<String> result = new ArrayList<>();
+            while (rs.next()){
+                result.add(rs.getString("description"));
+            }
+            statement.close();
+            connection.close();
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static ArrayList<String> fetchAllUser(Boolean is_customer){
+        String query = "select username from users where is_customer="+is_customer;
+        connect();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            ArrayList<String> result = new ArrayList<>();
+            while (rs.next()){
+                result.add(rs.getString("username"));
             }
             statement.close();
             connection.close();
@@ -233,12 +340,11 @@ public class JDBC {
             return 0;
         }
     }
-    public static int insert(String table, Service service){
+    public static int insert(Service service){
         connect();
         try {
-            String qurey = "insert into "+table+" values(?,?,?,? )";
+            String qurey = "insert into services values(?,?,? )";
             PreparedStatement preparedStatement = connection.prepareStatement(qurey);
-            preparedStatement.setString(1,"0");
             preparedStatement.setString(2,service.getProvider_id());
             preparedStatement.setString(3,service.getDescription());
             preparedStatement.setInt(4,service.getCost());
@@ -261,7 +367,7 @@ public class JDBC {
             preparedStatement.setString(2,report.getCustomer_id());
             preparedStatement.setString(3,report.getDescription());
             preparedStatement.setInt(4,report.getCost());
-            preparedStatement.setDate(5,report.getDate());
+            preparedStatement.setTimestamp(5,report.getDate());
             preparedStatement.setInt(6,report.getRate());
             int result = preparedStatement.executeUpdate();
             preparedStatement.close();

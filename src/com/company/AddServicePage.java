@@ -42,7 +42,7 @@ public class AddServicePage{
                 Service service = new Service(user.getUsername(),
                                             services.getValue().toString(),
                                             Integer.parseInt(tCost.getText()));
-                JDBC.insert("services",service);
+                JDBC.insert(service);
                 tCost.clear();
                 stage.setScene(previosScene);
                 stage.show();

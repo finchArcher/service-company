@@ -21,7 +21,7 @@ public class SignInPage {
         username.setPromptText("username");
         password.setPromptText("password");
         vBox.getChildren().addAll(back,username,password,sign_in);
-        Scene currentScene = new Scene(vBox,800,600);
+        Scene currentScene = new Scene(vBox,previosScene.getWidth(),previosScene.getHeight());
         stage.setScene(currentScene);
         stage.show();
         sign_in.setOnAction(new EventHandler<ActionEvent>() {

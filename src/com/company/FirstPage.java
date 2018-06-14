@@ -23,7 +23,7 @@ public class FirstPage extends Application {
         Button sign_up = new Button("Sign up");
         vBox.setPadding(new Insets(10,10,10,10));
         vBox.getChildren().addAll(sign_in,sign_up);
-        Scene scene = new Scene(vBox,800,600);
+        Scene scene = new Scene(vBox,1000,600);
         primaryStage.setScene(scene);
 
         primaryStage.show();
