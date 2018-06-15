@@ -10,22 +10,21 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import models.Report;
 import models.User;
 import network.JDBC;
 
-import java.lang.invoke.SwitchPoint;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class OperatorPage {
 
-    private static TableView tableView;
+    private static TableView reportTable;
+    private static TableView userTable;
+
     private static TableColumn firstClm;
     private static TableColumn secondeClm;
     private static TableColumn thirdClm;
@@ -33,11 +32,25 @@ public class OperatorPage {
     private static TableColumn fifthClm;
     private static TableColumn sixthClm;
 
+    private static TableColumn ufirstClm;
+    private static TableColumn usecondeClm;
+    private static TableColumn uthirdClm;
+    private static TableColumn ufourthClm;
+    private static TableColumn ufifthClm;
+    private static TableColumn usixthClm;
+    private static TableColumn useventhClm;
+    private static TableColumn ueighthClm;
+    private static TableColumn uninethClm;
+
     private static ToggleGroup toggleGroup;
     private static RadioButton serviceProvider;
     private static RadioButton customer;
     private static RadioButton service;
     private static RadioButton profit;
+    private static RadioButton user;
+
+    private static Label lChoice;
+    private static ComboBox cChoice;
     private static DatePicker from;
     private static DatePicker to;
     public static void show(Stage primaryStage, Scene previosScene){
@@ -68,20 +81,56 @@ public class OperatorPage {
         profit.setToggleGroup(toggleGroup);
         profit.setUserData("Profit");
         profit.setText("Profit");
-        vBox.getChildren().addAll(service,customer,serviceProvider,profit);
-        Label lChoice = new Label();
-        ComboBox cChoice = new ComboBox();
+        user = new RadioButton();
+        user.setToggleGroup(toggleGroup);
+        user.setUserData("User");
+        user.setText("User");
+        vBox.getChildren().addAll(service,customer,serviceProvider,profit,user);
+        lChoice = new Label();
+        cChoice = new ComboBox();
         Label lFrom = new Label("From:");
         from = new DatePicker();
         Label lTo = new Label("To:");
         to = new DatePicker();
 
         selectReport.getChildren().addAll(back,report,vBox,lChoice,cChoice,lFrom,from,lTo,to);
-        tableView = new TableView();
+
 
         Button show = new Button("show");
         show.setVisible(false);
         Label label = new Label();
+        label.setVisible(false);
+
+        //user table
+        userTable = new TableView();
+        ufirstClm = new TableColumn("FirstName");
+        ufirstClm.setCellValueFactory(new PropertyValueFactory<>("first_name"));
+        usecondeClm = new TableColumn("LastName");
+        usecondeClm.setCellValueFactory(new PropertyValueFactory<>("last_name"));
+        uthirdClm = new TableColumn("address");
+        uthirdClm.setCellValueFactory(new PropertyValueFactory<>("address"));
+        ufourthClm = new TableColumn("age");
+        ufourthClm.setCellValueFactory(new PropertyValueFactory<>("age"));
+        ufifthClm = new TableColumn("tell");
+        ufifthClm.setCellValueFactory(new PropertyValueFactory<>("tell"));
+        usixthClm = new TableColumn("is woman");
+        usixthClm.setCellValueFactory(new PropertyValueFactory<>("sex"));
+        useventhClm = new TableColumn("Username");
+        useventhClm.setCellValueFactory(new PropertyValueFactory<>("username"));
+        ueighthClm = new TableColumn("Rate");
+        ueighthClm.setCellValueFactory(new PropertyValueFactory<>("rate"));
+        uninethClm = new TableColumn("is Customer");
+        uninethClm.setCellValueFactory(new PropertyValueFactory<>("customer"));
+
+        userTable.setPadding(new Insets(0,10,0,0));
+        userTable.getColumns().addAll(ufirstClm,usecondeClm,uthirdClm,ufourthClm,ufifthClm,usixthClm,
+                useventhClm,ueighthClm,uninethClm);
+        userTable.setVisible(false);
+
+
+        //report table
+
+        reportTable = new TableView();
         firstClm = new TableColumn("Service");
         firstClm.setCellValueFactory(new PropertyValueFactory<>("description"));
         secondeClm = new TableColumn("Customer");
@@ -94,46 +143,86 @@ public class OperatorPage {
         fifthClm.setCellValueFactory(new PropertyValueFactory<>("date"));
         sixthClm = new TableColumn("Rate");
         sixthClm.setCellValueFactory(new PropertyValueFactory<>("rate"));
-        tableView.setPadding(new Insets(0,10,0,0));
-        tableView.getColumns().addAll(firstClm,secondeClm,thirdClm,fourthClm,fifthClm,sixthClm);
+        reportTable.setPadding(new Insets(0,10,0,0));
+        reportTable.getColumns().addAll(firstClm,secondeClm,thirdClm,fourthClm,fifthClm,sixthClm);
 
-        root.getChildren().addAll(selectReport,show,label,tableView);
+
+
+        root.getChildren().addAll(selectReport,show,label, reportTable,userTable);
         Scene currentScene = new Scene(root,previosScene.getWidth(),previosScene.getHeight());
         primaryStage.setScene(currentScene);
 
         toggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
             @Override
             public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
-                ArrayList<Report> reports = new ArrayList<>();
                 switch (newValue.getUserData().toString()){
                     case "Service":
-                        label.setText(newValue.getUserData().toString());
+                        reportTable.setVisible(true);
+                        userTable.setVisible(false);
+                        lFrom.setVisible(true);
+                        from.setVisible(true);
+                        lTo.setVisible(true);
+                        to.setVisible(true);
+                        label.setVisible(false);
                         lChoice.setText(newValue.getUserData().toString());
                         cChoice.setVisible(true);
                         cChoice.getItems().clear();
                         cChoice.getItems().addAll(JDBC.fetchAllService());
                         break;
                     case "Service Provider":
-                        label.setText(newValue.getUserData().toString());
+                        reportTable.setVisible(true);
+                        userTable.setVisible(false);
+                        lFrom.setVisible(true);
+                        from.setVisible(true);
+                        lTo.setVisible(true);
+                        to.setVisible(true);
+                        label.setVisible(false);
                         lChoice.setText(newValue.getUserData().toString());
                         cChoice.setVisible(true);
                         cChoice.getItems().clear();
                         cChoice.getItems().addAll(JDBC.fetchAllUser(false));
                         break;
-                        case "Customer":
-                        label.setText(newValue.getUserData().toString());
-                            lChoice.setText(newValue.getUserData().toString());
-                            cChoice.setVisible(true);
+                    case "Customer":
+                        reportTable.setVisible(true);
+                        userTable.setVisible(false);
+                        lFrom.setVisible(true);
+                        from.setVisible(true);
+                        lTo.setVisible(true);
+                        to.setVisible(true);
+                        label.setVisible(false);
+                        lChoice.setText(newValue.getUserData().toString());
+                        cChoice.setVisible(true);
                         cChoice.getItems().clear();
                         cChoice.getItems().addAll(JDBC.fetchAllUser(true));
-
-                            break;
+                        break;
                     case "Profit":
+                        reportTable.setVisible(true);
+                        userTable.setVisible(false);
+                        lFrom.setVisible(true);
+                        from.setVisible(true);
+                        lTo.setVisible(true);
+                        to.setVisible(true);
+                        lChoice.setVisible(false);
                         cChoice.setVisible(false);
-                        label.setText(newValue.getUserData().toString());
+                        reportTable.setVisible(false);
+                        break;
+                    case "User":
+                        lChoice.setText("User:");
+                        cChoice.setVisible(true);
+                        cChoice.getItems().addAll(JDBC.fetchAllUser(false));
+                        cChoice.getItems().addAll(JDBC.fetchAllUser(true));
+                        reportTable.setVisible(false);
+                        userTable.setVisible(true);
+                        label.setVisible(false);
+                        lFrom.setVisible(false);
+                        from.setVisible(false);
+                        lTo.setVisible(false);
+                        to.setVisible(false);
                         break;
                 }
                 show.setVisible(true);
+
+
 
             }
         });
@@ -141,34 +230,35 @@ public class OperatorPage {
         show.setOnAction(new EventHandler<ActionEvent>() {
                              @Override
                              public void handle(ActionEvent event) {
-                                 if(cChoice.getValue() != null && from.getValue() != null && to.getValue() != null){
-                                     ArrayList<Report> reports = new ArrayList<>();
+                                 if (toggleGroup.getSelectedToggle().getUserData().toString()=="Profit") {
+
+                                     label.setVisible(true);
+                                     label.setText("Profit:" + JDBC.calcProfit(from.getValue().toString(), to.getValue().toString()));
+
+                                 }else if (toggleGroup.getSelectedToggle().getUserData().toString()== "User"){
+
+                                     intiUserTable(cChoice.getValue().toString());
+
+                                 }
+                                 else if(cChoice.getValue() != null && from.getValue() != null && to.getValue() != null) {
+                                     ArrayList<Report> reports;
                                      switch (toggleGroup.getSelectedToggle().getUserData().toString()) {
                                          case "Service":
-
-                                             reports = JDBC.fetchReportBaseOnService(cChoice.getValue().toString(),
+                                            reports  = JDBC.fetchReportBaseOnService(cChoice.getValue().toString(),
                                                      from.getValue().toString(),to.getValue().toString());
-
+                                             initReportTable(reports);
                                              break;
                                          case "Service Provider":
-
-                                             reports = JDBC.fetchReportBaseOnProvider(cChoice.getValue().toString(),
+                                             reports  = JDBC.fetchReportBaseOnProvider(cChoice.getValue().toString(),
                                                      from.getValue().toString(),to.getValue().toString());
+                                             initReportTable(reports);
                                              break;
                                          case "Customer":
-
-                                             reports = JDBC.fetchReportBaseOnCustomer(cChoice.getValue().toString(),
+                                             reports  = JDBC.fetchReportBaseOnCustomer(cChoice.getValue().toString(),
                                                      from.getValue().toString(),to.getValue().toString());
-                                             break;
-                                         case "Profit":
-                                             //label.setText(newValue.getUserData().toString());
+                                             initReportTable(reports);
                                              break;
                                      }
-                                     removeAllRows();
-                                     for (Report r : reports) {
-                                         tableView.getItems().add(r);
-                                     }
-
                                  }
                              }
         });
@@ -231,9 +321,30 @@ public class OperatorPage {
         });
     }
 
-    public static void removeAllRows(){
-        for ( int i = 0; i<tableView.getItems().size(); i++) {
-            tableView.getItems().clear();
+    public static void initReportTable(ArrayList<Report> reports){
+        removeReportTableRows();
+
+        for (Report r : reports) {
+            reportTable.getItems().add(r);
+        }
+
+    }
+
+    public static void intiUserTable(String username){
+        removeUserTableRows();
+        User user = JDBC.getUsers(username);
+        userTable.getItems().add(user);
+
+    }
+    public static void removeReportTableRows(){
+        for (int i = 0; i< reportTable.getItems().size(); i++) {
+            reportTable.getItems().clear();
+        }
+    }
+
+    public static void removeUserTableRows(){
+        for (int i = 0; i< userTable.getItems().size(); i++) {
+            userTable.getItems().clear();
         }
     }
 

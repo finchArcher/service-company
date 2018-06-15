@@ -9,27 +9,33 @@ public class User {
     private boolean sex;
     private String username;
     private String password;
-    private boolean isCustomer;
+    private boolean customer;
     private int rate;
 
     public User() {
     }
 
+    public User(String username, String password,Boolean customer) {
+        this.username = username;
+        this.password = password;
+        this.customer = customer;
+    }
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+        this.customer = customer;
     }
 
     public User(String first_name, String last_name,
                 String address, String tell,
-                String age, boolean sex,boolean isCustomer, String username, String password) {
+                String age, boolean sex,boolean customer, String username, String password) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.address = address;
         this.tell = tell;
         this.age = age;
         this.sex = sex;
-        this.isCustomer = isCustomer;
+        this.customer = customer;
         this.username = username;
         this.password = password;
     }
@@ -82,12 +88,12 @@ public class User {
         this.sex = sex;
     }
 
-    public boolean isCustomer() {
-        return isCustomer;
+    public boolean getCustomer() {
+        return customer;
     }
 
     public void setCustomer(boolean customer) {
-        isCustomer = customer;
+        customer = customer;
     }
 
     public String getUsername() {

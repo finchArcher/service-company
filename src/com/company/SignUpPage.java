@@ -116,11 +116,11 @@ public class SignUpPage {
             @Override
             public void handle(ActionEvent event) {
                 //TODO: check data for valid
-                user = new User(tUsername.getText(),tPassword.getText());
+                user = new User(tUsername.getText(),tPassword.getText(),cIsCustomer.isSelected());
 
                 if(createUser(user)){
                     if (addUser(user)){
-                        if (user.isCustomer()){
+                        if (user.getCustomer()){
                             CustomerPage.show(stage,currentScene,user,true);
                         }else {
                             ProviderPage.show(stage,currentScene,user,true);

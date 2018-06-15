@@ -5,7 +5,6 @@ import models.Service;
 import models.User;
 
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class JDBC {
@@ -163,6 +162,27 @@ public class JDBC {
         }
     }
 
+    public static float calcProfit(String from, String to){
+        String query = "select cost from reports where _date >='"+from+"' and _date <='"+to+"'";
+
+        connect();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            float result=0;
+
+            while (rs.next()){
+                result += rs.getInt("cost");
+            }
+            statement.close();
+            connection.close();
+            return result*5/100;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0f;
+        }
+    }
+
 
     public static Service fetchServices(String service) {
         String query = "select services.provider_id, services.description,services.cost" +
@@ -235,6 +255,34 @@ public class JDBC {
             return null;
         }
     }
+    public static User getUsers(String username){
+        String query = "select * from users where username='"+username+"'";
+        connect();
+
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            User user = new User();
+            if(rs.next()) {
+                user.setFirst_name(rs.getString("firstname"));
+                user.setLast_name(rs.getString("lastname"));
+                user.setAddress(rs.getString("address"));
+                user.setAge(rs.getString("age"));
+                user.setTell(rs.getString("tell"));
+                user.setSex(rs.getBoolean("sex"));
+                user.setUsername(rs.getString("username"));
+                user.setCustomer(rs.getBoolean("is_customer"));
+                user.setRate(rs.getInt("rate"));
+            }
+            statement.close();
+            connection.close();
+            return user;
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+        return null;
+    }
+
     public static ArrayList<String> fetchTable(String table){
         String query = "select description from "+table;
         connect();
@@ -327,7 +375,7 @@ public class JDBC {
             preparedStatement.setString(4,user.getTell());
             preparedStatement.setBoolean(5,user.getSex());
             preparedStatement.setString(6,user.getAge());
-            preparedStatement.setBoolean(7,user.isCustomer());
+            preparedStatement.setBoolean(7,user.getCustomer());
             preparedStatement.setString(8,user.getUsername());
             preparedStatement.setString(9,user.getPassword());
             preparedStatement.setInt(10,user.getRate());
