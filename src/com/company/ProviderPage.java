@@ -1,10 +1,9 @@
 package com.company;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -16,20 +15,20 @@ import models.Report;
 import models.User;
 import network.JDBC;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 
 
 public class ProviderPage {
-    //TODO:test initiTableView function
     private static TableView tableView;
     private static Button addService;
     private static Button signOut;
     private static Button removeService;
     private static Button removeProfile;
-    public static void show(Stage stage, Scene previosScene, User user, Boolean isSignUp) {
+    public static void show(Stage primaryStage, Scene previosScene, User user) {
+        primaryStage.setTitle("Provider Page");
         tableView = new TableView();
+        tableView.setMaxWidth(800);
         final Label label = new Label("Services performed:");
         label.setFont(new Font("Arial", 20));
 
@@ -43,7 +42,6 @@ public class ProviderPage {
         dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
         TableColumn rateCol = new TableColumn("Rate");
         rateCol.setCellValueFactory(new PropertyValueFactory<>("rate"));
-        tableView.setPadding(new Insets(0,10,0,0));
 
 
         tableView.getColumns().addAll(serviceClm,customerClm,costCol,dateCol,rateCol);
@@ -54,31 +52,33 @@ public class ProviderPage {
         signOut = new Button("Sign Out");
         removeProfile = new Button("remove Profile");
         HBox buttonRow = new HBox();
+        buttonRow.setAlignment(Pos.BOTTOM_CENTER);
         buttonRow.setSpacing(20);
         buttonRow.setPadding(new Insets(10,10,0,10));
         buttonRow.getChildren().addAll(addService,removeService,signOut,removeProfile);
 
         VBox root = new VBox();
+        root.setAlignment(Pos.CENTER);
         root.setSpacing(5);
         root.setPadding(new Insets(10, 0, 0, 10));
         root.getChildren().addAll(label, tableView,buttonRow);
 
 
         Scene currentScene = new Scene(root,previosScene.getWidth(),previosScene.getHeight());
-        stage.setScene(currentScene);
-        stage.show();
+        primaryStage.setScene(currentScene);
+        primaryStage.show();
 
         addService.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                AddServicePage.show(stage,currentScene,user);
+                AddServicePage.show(primaryStage,currentScene,user);
             }
         });
 
         removeService.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                RemoveServicePage.show(stage,currentScene,user);
+                RemoveServicePage.show(primaryStage,currentScene,user);
             }
         });
 
@@ -86,8 +86,8 @@ public class ProviderPage {
         signOut.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                stage.setScene(previosScene);
-                stage.show();
+                primaryStage.setScene(previosScene);
+                primaryStage.show();
             }
         });
 
@@ -101,8 +101,8 @@ public class ProviderPage {
                 Optional<ButtonType> result = alert.showAndWait();
                 if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
                     JDBC.removeUser(user);
-                    stage.setScene(previosScene);
-                    stage.show();
+                    primaryStage.setScene(previosScene);
+                    primaryStage.show();
                 }
 
             }

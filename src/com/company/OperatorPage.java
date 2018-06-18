@@ -5,6 +5,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -55,15 +56,18 @@ public class OperatorPage {
     private static DatePicker to;
     public static void show(Stage primaryStage, Scene previosScene){
 
+        primaryStage.setTitle("Operator Page");
         VBox root = new VBox();
+        root.setAlignment(Pos.CENTER);
         root.setSpacing(20);
+        root.setPadding(new Insets(20,0,25,20));
         HBox selectReport = new HBox();
         selectReport.setSpacing(1);
         VBox vBox = new VBox();
         vBox.setSpacing(10);
 
         Label report = new Label("Report:");
-        Button back = new Button("back");
+        Button back = new Button("Exit");
         toggleGroup = new ToggleGroup();
         service = new RadioButton();
         service.setToggleGroup(toggleGroup);
@@ -101,8 +105,29 @@ public class OperatorPage {
         Label label = new Label();
         label.setVisible(false);
 
+        //report table
+
+        reportTable = new TableView();
+        reportTable.setMaxWidth(800);
+        firstClm = new TableColumn("Service");
+        firstClm.setCellValueFactory(new PropertyValueFactory<>("description"));
+        secondeClm = new TableColumn("Customer");
+        secondeClm.setCellValueFactory(new PropertyValueFactory<>("customer_id"));
+        thirdClm = new TableColumn("Provider");
+        thirdClm.setCellValueFactory(new PropertyValueFactory<>("provider_id"));
+        fourthClm = new TableColumn("Cost");
+        fourthClm.setCellValueFactory(new PropertyValueFactory<>("cost"));
+        fifthClm = new TableColumn("Date");
+        fifthClm.setCellValueFactory(new PropertyValueFactory<>("date"));
+        sixthClm = new TableColumn("Rate");
+        sixthClm.setCellValueFactory(new PropertyValueFactory<>("rate"));
+        reportTable.setPadding(new Insets(0,10,0,0));
+        reportTable.getColumns().addAll(firstClm,secondeClm,thirdClm,fourthClm,fifthClm,sixthClm);
+
         //user table
         userTable = new TableView();
+        userTable.setMaxWidth(800);
+        userTable.setPadding(new Insets(0,0,20,0));
         ufirstClm = new TableColumn("FirstName");
         ufirstClm.setCellValueFactory(new PropertyValueFactory<>("first_name"));
         usecondeClm = new TableColumn("LastName");
@@ -121,30 +146,11 @@ public class OperatorPage {
         ueighthClm.setCellValueFactory(new PropertyValueFactory<>("rate"));
         uninethClm = new TableColumn("is Customer");
         uninethClm.setCellValueFactory(new PropertyValueFactory<>("customer"));
-
-        userTable.setPadding(new Insets(0,10,0,0));
         userTable.getColumns().addAll(ufirstClm,usecondeClm,uthirdClm,ufourthClm,ufifthClm,usixthClm,
                 useventhClm,ueighthClm,uninethClm);
         userTable.setVisible(false);
 
 
-        //report table
-
-        reportTable = new TableView();
-        firstClm = new TableColumn("Service");
-        firstClm.setCellValueFactory(new PropertyValueFactory<>("description"));
-        secondeClm = new TableColumn("Customer");
-        secondeClm.setCellValueFactory(new PropertyValueFactory<>("customer_id"));
-        thirdClm = new TableColumn("Provider");
-        thirdClm.setCellValueFactory(new PropertyValueFactory<>("provider_id"));
-        fourthClm = new TableColumn("Cost");
-        fourthClm.setCellValueFactory(new PropertyValueFactory<>("cost"));
-        fifthClm = new TableColumn("Date");
-        fifthClm.setCellValueFactory(new PropertyValueFactory<>("date"));
-        sixthClm = new TableColumn("Rate");
-        sixthClm.setCellValueFactory(new PropertyValueFactory<>("rate"));
-        reportTable.setPadding(new Insets(0,10,0,0));
-        reportTable.getColumns().addAll(firstClm,secondeClm,thirdClm,fourthClm,fifthClm,sixthClm);
 
 
 

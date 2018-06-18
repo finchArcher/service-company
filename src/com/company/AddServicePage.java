@@ -1,8 +1,8 @@
 package com.company;
 
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -14,16 +14,16 @@ import models.Service;
 import models.User;
 import network.JDBC;
 
-import java.sql.Statement;
 
 
 public class AddServicePage{
 
-    public static void show(Stage stage, Scene previosScene, User user) {
+    public static void show(Stage primaryStage, Scene previosScene, User user) {
+        primaryStage.setTitle("Add Service");
         HBox root = new HBox();
+        root.setAlignment(Pos.CENTER);
         Button back = new Button("back");
         Label lSerivce = new Label("Service:");
-        //TextField tService = new TextField();
         ComboBox services = new ComboBox();
         services.setEditable(true);
         services.getItems().addAll(JDBC.fetchTable("services"));
@@ -33,8 +33,7 @@ public class AddServicePage{
         root.getChildren().addAll(back,lSerivce,services,lCost,tCost,add);
         root.setSpacing(10);
         Scene currentScene = new Scene(root,previosScene.getWidth(),previosScene.getHeight());
-        stage.setScene(currentScene);
-        stage.setTitle("Add Service window");
+        primaryStage.setScene(currentScene);
 
         add.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -44,16 +43,16 @@ public class AddServicePage{
                                             Integer.parseInt(tCost.getText()));
                 JDBC.insert(service);
                 tCost.clear();
-                stage.setScene(previosScene);
-                stage.show();
+                primaryStage.setScene(previosScene);
+                primaryStage.show();
             }
         });
 
         back.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                stage.setScene(previosScene);
-                stage.show();
+                primaryStage.setScene(previosScene);
+                primaryStage.show();
             }
         });
 

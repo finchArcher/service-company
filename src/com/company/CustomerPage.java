@@ -2,12 +2,10 @@ package com.company;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import models.Report;
 import models.Service;
@@ -15,19 +13,16 @@ import models.User;
 import network.JDBC;
 
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Optional;
 
 public class CustomerPage {
 
 
-    public static void show(Stage stage, Scene previosScene, User user, boolean b) {
+    public static void show(Stage primaryStage, Scene previosScene, User user) {
+        primaryStage.setTitle("Customer Page");
         HBox root = new HBox();
+        root.setAlignment(Pos.CENTER);
         Button signOut = new Button("Sign out");
         Button removeProfile = new Button("removeProfile");
         Label lSerivce = new Label("Service:");
@@ -38,8 +33,8 @@ public class CustomerPage {
         root.setSpacing(10);
 
         Scene currentScene = new Scene(root,previosScene.getWidth(),previosScene.getHeight());
-        stage.setScene(currentScene);
-        stage.setTitle("Add Service window");
+        primaryStage.setScene(currentScene);
+        primaryStage.setTitle("Add Service window");
 
         request.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -51,8 +46,8 @@ public class CustomerPage {
         signOut.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                stage.setScene(previosScene);
-                stage.show();
+                primaryStage.setScene(previosScene);
+                primaryStage.show();
             }
         });
 
@@ -66,8 +61,8 @@ public class CustomerPage {
                 Optional<ButtonType> result = alert.showAndWait();
                 if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
                     JDBC.removeUser(user);
-                    stage.setScene(previosScene);
-                    stage.show();
+                    primaryStage.setScene(previosScene);
+                    primaryStage.show();
                 }
             }
         });

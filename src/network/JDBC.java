@@ -393,9 +393,9 @@ public class JDBC {
         try {
             String qurey = "insert into services values(?,?,? )";
             PreparedStatement preparedStatement = connection.prepareStatement(qurey);
-            preparedStatement.setString(2,service.getProvider_id());
-            preparedStatement.setString(3,service.getDescription());
-            preparedStatement.setInt(4,service.getCost());
+            preparedStatement.setString(1,service.getProvider_id());
+            preparedStatement.setString(2,service.getDescription());
+            preparedStatement.setInt(3,service.getCost());
             int result = preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();

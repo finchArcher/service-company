@@ -2,6 +2,7 @@ package com.company;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -48,6 +49,7 @@ public class SignUpPage {
 
     public static void show(Stage stage, Scene previosScene) {
         root = new GridPane();
+        root.setAlignment(Pos.CENTER);
         root.setHgap(3);
         root.setVgap(12);
 
@@ -121,9 +123,9 @@ public class SignUpPage {
                 if(createUser(user)){
                     if (addUser(user)){
                         if (user.getCustomer()){
-                            CustomerPage.show(stage,currentScene,user,true);
+                            CustomerPage.show(stage,currentScene,user);
                         }else {
-                            ProviderPage.show(stage,currentScene,user,true);
+                            ProviderPage.show(stage,currentScene,user);
                         }
                     }
                 }
