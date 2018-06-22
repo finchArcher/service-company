@@ -34,7 +34,6 @@ public class CustomerPage {
 
         Scene currentScene = new Scene(root,previosScene.getWidth(),previosScene.getHeight());
         primaryStage.setScene(currentScene);
-        primaryStage.setTitle("Add Service window");
 
         request.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -77,7 +76,7 @@ public class CustomerPage {
         rateDialog.setTitle("Rate");
         rateDialog.setHeaderText("How was your service");
         rateDialog.setContentText("Rate:");
-        Optional<Integer> rateResult = rateDialog.showAndWait();
+        rateDialog.showAndWait();
         int rate = rateDialog.getSelectedItem();
 
         //add report of service to database

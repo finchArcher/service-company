@@ -25,11 +25,12 @@ public class ProviderPage {
     private static Button signOut;
     private static Button removeService;
     private static Button removeProfile;
+    private static Label label;
     public static void show(Stage primaryStage, Scene previosScene, User user) {
         primaryStage.setTitle("Provider Page");
         tableView = new TableView();
         tableView.setMaxWidth(800);
-        final Label label = new Label("Services performed:");
+        label = new Label("Services performed:");
         label.setFont(new Font("Arial", 20));
 
         TableColumn serviceClm = new TableColumn("Service");
@@ -101,7 +102,10 @@ public class ProviderPage {
                 Optional<ButtonType> result = alert.showAndWait();
                 if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
                     JDBC.removeUser(user);
-                    primaryStage.setScene(previosScene);
+                    for (String s: JDBC.fetchUserService("services",user))
+                        JDBC.removeService(s,user);
+
+                        primaryStage.setScene(previosScene);
                     primaryStage.show();
                 }
 

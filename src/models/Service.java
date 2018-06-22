@@ -3,7 +3,6 @@ package models;
 import java.sql.Date;
 
 public class Service {
-    //private String id;
     private String provider_id;
     private String customer_id;
     private Date date;

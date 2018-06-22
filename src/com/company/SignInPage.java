@@ -27,7 +27,6 @@ public class SignInPage {
         password.setMaxWidth(150);
         Button sign_in = new Button("Sign in");
         Button back = new Button("Back");
-        back.setAlignment(Pos.BOTTOM_LEFT);
         username.setPromptText("username");
         password.setPromptText("password");
         root.getChildren().addAll(login,username,password,sign_in,back);

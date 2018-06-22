@@ -17,6 +17,8 @@ public class RemoveServicePage {
     public static void show(Stage primaryStage, Scene previosScene, User user) {
         primaryStage.setTitle("Remove Service");
         HBox root = new HBox();
+        root.setSpacing(10);
+
         root.setAlignment(Pos.CENTER);
         Button back = new Button("Back");
         Label lSerivce = new Label("Service:");
@@ -24,10 +26,10 @@ public class RemoveServicePage {
         service.getItems().addAll(JDBC.fetchUserService("services",user));
         Button remove = new Button("Remove");
         root.getChildren().addAll(back,lSerivce,service,remove);
-        root.setSpacing(10);
 
         Scene currentScene = new Scene(root,previosScene.getWidth(),previosScene.getHeight());
         primaryStage.setScene(currentScene);
+        primaryStage.show();
 
         remove.setOnAction(new EventHandler<ActionEvent>() {
             //TODO:check service deleted or not;

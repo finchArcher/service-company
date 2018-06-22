@@ -23,7 +23,6 @@ public class User {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.customer = customer;
     }
 
     public User(String first_name, String last_name,

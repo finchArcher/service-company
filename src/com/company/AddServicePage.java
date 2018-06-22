@@ -21,8 +21,9 @@ public class AddServicePage{
     public static void show(Stage primaryStage, Scene previosScene, User user) {
         primaryStage.setTitle("Add Service");
         HBox root = new HBox();
+        root.setSpacing(10);
         root.setAlignment(Pos.CENTER);
-        Button back = new Button("back");
+        Button back = new Button("Back");
         Label lSerivce = new Label("Service:");
         ComboBox services = new ComboBox();
         services.setEditable(true);
@@ -31,7 +32,6 @@ public class AddServicePage{
         TextField tCost = new TextField();
         Button add = new Button("Add Serive");
         root.getChildren().addAll(back,lSerivce,services,lCost,tCost,add);
-        root.setSpacing(10);
         Scene currentScene = new Scene(root,previosScene.getWidth(),previosScene.getHeight());
         primaryStage.setScene(currentScene);
 

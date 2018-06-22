@@ -389,9 +389,9 @@ public class JDBC {
         }
     }
     public static int insert(Service service){
+        String qurey = "insert into services values(?,?,? )";
         connect();
         try {
-            String qurey = "insert into services values(?,?,? )";
             PreparedStatement preparedStatement = connection.prepareStatement(qurey);
             preparedStatement.setString(1,service.getProvider_id());
             preparedStatement.setString(2,service.getDescription());
@@ -407,9 +407,10 @@ public class JDBC {
     }
 
     public static int insert(Report report){
+        String qurey = "insert into reports values(?,?,?,?,?,?)";
+
         connect();
         try {
-            String qurey = "insert into reports values(?,?,?,?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(qurey);
             preparedStatement.setString(1,report.getProvider_id());
             preparedStatement.setString(2,report.getCustomer_id());

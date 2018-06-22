@@ -34,14 +34,13 @@ public class SignUpPage {
     private static Label lAge;
     private static TextField tAge;
 
-    private static Label lUsername = new Label("username");
-    private static TextField tUsername = new TextField();
+    private static Label lUsername;
+    private static TextField tUsername;
 
-    private static Label lPassword = new Label("password");
-    private static PasswordField tPassword = new PasswordField();
-
-    private static Label usernaemError = new Label();
-    private static Label passwordError = new Label();
+    private static Label lPassword;
+    private static PasswordField tPassword;
+    private static Label usernaemError;
+    private static Label passwordError;
 
     private static Button signUp;
     private static User user;
@@ -53,7 +52,7 @@ public class SignUpPage {
         root.setHgap(3);
         root.setVgap(12);
 
-        back = new Button("back");
+        back = new Button("Back");
         lIsCustomer = new Label("Are you customer?");
         cIsCustomer = new CheckBox();
         lFirstname = new Label("First name:");
@@ -76,7 +75,13 @@ public class SignUpPage {
         radioGroup.getChildren().addAll(male,female);
         lAge = new Label("Age:");
         tAge = new TextField();
+        lUsername = new Label("username");
+        tUsername = new TextField();
         signUp = new Button("Sign up");
+        lPassword = new Label("password");
+        tPassword = new PasswordField();
+        usernaemError = new Label();
+        passwordError = new Label();
         root.add(back,0,0);
         root.add(lIsCustomer,0,1);
         root.add(cIsCustomer,1,1);
@@ -171,7 +176,7 @@ public class SignUpPage {
                 return true;
             }else {
                 tPassword.clear();
-                lPassword.setText("");
+                passwordError.setText("");
                 usernaemError.setText("your username is duplicate, please insert another one");
                 usernaemError.setTextFill(Color.RED);
             }

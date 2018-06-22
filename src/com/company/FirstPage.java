@@ -33,6 +33,7 @@ public class FirstPage extends Application {
 
         primaryStage.show();
 
+
         sign_in.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -46,6 +47,7 @@ public class FirstPage extends Application {
                 SignUpPage.show(primaryStage,scene);
             }
         });
+
     }
 
 
