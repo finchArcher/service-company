@@ -11,6 +11,7 @@ public class Service {
     private int rate;
 
     public Service(){}
+
     public Service(String provider_id, String customer_id,Date date, String description,int cost,int rate){
         this.provider_id = provider_id;
         this.customer_id = customer_id;
@@ -25,12 +26,7 @@ public class Service {
         this.description = description;
         this.cost = cost;
     }
-    /*public Service(String provider_id,String description, int cost, int rate){
-        this.provider_id = provider_id;
-        this.description = description;
-        this.cost = cost;
-        this.
-    }*/
+
 
     public String getCustomer_id() {
         return customer_id;

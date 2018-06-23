@@ -54,6 +54,7 @@ public class OperatorPage {
     private static ComboBox cChoice;
     private static DatePicker from;
     private static DatePicker to;
+
     public static void show(Stage primaryStage, Scene previosScene){
 
         primaryStage.setTitle("Operator Page");
@@ -138,7 +139,7 @@ public class OperatorPage {
         ufourthClm.setCellValueFactory(new PropertyValueFactory<>("age"));
         ufifthClm = new TableColumn("tell");
         ufifthClm.setCellValueFactory(new PropertyValueFactory<>("tell"));
-        usixthClm = new TableColumn("is woman");
+        usixthClm = new TableColumn("is male");
         usixthClm.setCellValueFactory(new PropertyValueFactory<>("sex"));
         useventhClm = new TableColumn("Username");
         useventhClm.setCellValueFactory(new PropertyValueFactory<>("username"));
@@ -157,12 +158,14 @@ public class OperatorPage {
         root.getChildren().addAll(selectReport,show,label, reportTable,userTable);
         Scene currentScene = new Scene(root,previosScene.getWidth(),previosScene.getHeight());
         primaryStage.setScene(currentScene);
+        primaryStage.show();
 
         toggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
             @Override
             public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
                 switch (newValue.getUserData().toString()){
                     case "Service":
+                        lChoice.setVisible(true);
                         reportTable.setVisible(true);
                         userTable.setVisible(false);
                         lFrom.setVisible(true);
@@ -176,6 +179,7 @@ public class OperatorPage {
                         cChoice.getItems().addAll(JDBC.fetchAllService());
                         break;
                     case "Service Provider":
+                        lChoice.setVisible(true);
                         reportTable.setVisible(true);
                         userTable.setVisible(false);
                         lFrom.setVisible(true);
@@ -189,6 +193,7 @@ public class OperatorPage {
                         cChoice.getItems().addAll(JDBC.fetchAllUser(false));
                         break;
                     case "Customer":
+                        lChoice.setVisible(true);
                         reportTable.setVisible(true);
                         userTable.setVisible(false);
                         lFrom.setVisible(true);
@@ -213,8 +218,10 @@ public class OperatorPage {
                         reportTable.setVisible(false);
                         break;
                     case "User":
+                        lChoice.setVisible(true);
                         lChoice.setText("User:");
                         cChoice.setVisible(true);
+                        cChoice.getItems().clear();
                         cChoice.getItems().addAll(JDBC.fetchAllUser(false));
                         cChoice.getItems().addAll(JDBC.fetchAllUser(true));
                         reportTable.setVisible(false);

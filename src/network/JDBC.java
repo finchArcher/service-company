@@ -279,8 +279,9 @@ public class JDBC {
             return user;
         } catch (SQLException e1) {
             e1.printStackTrace();
+            return null;
+
         }
-        return null;
     }
 
     public static ArrayList<String> fetchTable(String table){
