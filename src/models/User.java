@@ -92,7 +92,7 @@ public class User {
     }
 
     public void setCustomer(boolean customer) {
-        customer = customer;
+        this.customer = customer;
     }
 
     public String getUsername() {
